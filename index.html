@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>public-trust — Bhumika AI</title>
+<style>
+  :root { color-scheme: light dark; --fg:#14171a; --muted:#5b6570; --bg:#fff; --line:#e3e7ea; --accent:#0b6; --code:#f4f6f8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e6e9ec; --muted:#98a3ad; --bg:#0f1215; --line:#252b31; --accent:#3ddc9a; --code:#171b1f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:3rem 1.25rem 5rem; background:var(--bg); color:var(--fg);
+         font:16px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width: 46rem; margin: 0 auto; }
+  h1 { font-size:1.6rem; margin:0 0 .25rem; letter-spacing:-.02em; }
+  .sub { color:var(--muted); margin:0 0 2.5rem; }
+  h2 { font-size:1rem; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--muted); margin:2.5rem 0 .75rem; font-weight:600; }
+  code { background:var(--code); padding:.15em .4em; border-radius:4px;
+         font:0.875em ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; }
+  table { width:100%; border-collapse:collapse; margin:.5rem 0; }
+  th,td { text-align:left; padding:.6rem .5rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:.8rem;
+       text-transform:uppercase; letter-spacing:.05em; }
+  a { color:var(--accent); }
+  .note { border-left:3px solid var(--line); padding:.1rem 0 .1rem 1rem;
+          color:var(--muted); margin:1rem 0; }
+  footer { margin-top:3.5rem; padding-top:1.25rem; border-top:1px solid var(--line);
+           color:var(--muted); font-size:.875rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>public-trust</h1>
+  <p class="sub">Public trust anchors and well-known documents for Bhumika AI infrastructure.</p>
+
+  <p><strong>Everything served here is public by design.</strong> These are verification
+  keys and discovery metadata — the artifacts a relying party fetches anonymously to
+  check a signature. No private key, token, or credential belongs in this repository.</p>
+
+  <h2>Why it exists</h2>
+  <p>Google Cloud's Security Token Service validates a federated token by fetching the
+  issuer's OIDC discovery document and JWKS over the public internet. A managed cluster
+  publishes those itself. A local cluster — kind on a laptop — has no public endpoint,
+  so its discovery documents are mirrored here instead.</p>
+
+  <h2>Published issuers</h2>
+  <table>
+    <tr><th>Cluster</th><th>Issuer</th></tr>
+    <tr>
+      <td><code>prithvi-kind</code></td>
+      <td>
+        <a href="clusters/prithvi-kind/.well-known/openid-configuration">discovery</a> ·
+        <a href="clusters/prithvi-kind/openid/v1/jwks">jwks</a><br>
+        <code>https://bhumikaai.github.io/public-trust/clusters/prithvi-kind</code>
+      </td>
+    </tr>
+  </table>
+
+  <h2>Operating notes</h2>
+  <p class="note"><code>.nojekyll</code> must stay at the repository root. GitHub Pages
+  runs Jekyll by default, and Jekyll does not publish directories beginning with a dot —
+  so <code>.well-known/</code> disappears and every token exchange fails with an
+  unreachable discovery document.</p>
+  <p class="note">Write access here is a trust anchor. Anyone who can push to this
+  repository can publish their own signing key and mint tokens Google will accept for the
+  bound service accounts. Keep branch protection on <code>main</code> and review every
+  change.</p>
+
+  <footer>
+    <a href="https://github.com/BhumikaAI/public-trust">BhumikaAI/public-trust</a>
+  </footer>
+</main>
+</body>
+</html>
